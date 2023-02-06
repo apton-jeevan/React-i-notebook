@@ -1,4 +1,6 @@
+
 import React, { Component } from 'react'
+import Loading from './Loading';
 import NewsItem from './NewsItem'
 
 export class News extends Component {
@@ -13,25 +15,30 @@ export class News extends Component {
 
 
     async componentDidMount() {
+        let url = `https://newsapi.org/v2/everything?q=bitcoin&apiKey=12e1c1efcb774d2995e47f59229b3950&page=1&pagesize=20`;
+    
+        this.setState({loading:true})//loading is made true when we are going to hit the apit thata is when we are going to fetch the url
 
-        let url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=9856e4b407c245f294e49ed3ace91c5b&page=1&pagesize=20`;
         let data = await fetch(url);
         let parsedData = await data.json()
         this.setState({ 
             articles: parsedData.articles ,
-            totalResults:parsedData.totalResults
+            totalResults:parsedData.totalResults,
+            loading:false // as data has been fetched so we now make loading:false
         })
 
     }
 
 
     previousPageHandler = async () => {
-        let url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=9856e4b407c245f294e49ed3ace91c5b&page=${this.state.page - 1}&pagesize=20`;
+        let url = `https://newsapi.org/v2/everything?q=bitcoin&apiKey=12e1c1efcb774d2995e47f59229b3950&page=${this.state.page - 1}&pagesize=20`;
+        this.setState({loading:true})//loading is made true when we are going to hit the apit thata is when we are going to fetch the url
         let data = await fetch(url);
         let parsedData = await data.json()
         this.setState({
             page: this.state.page - 1,
-            articles: parsedData.articles
+            articles: parsedData.articles,  
+            loading:false// as data has been fetched so we now make loading:false
         })
 
     }
@@ -40,12 +47,14 @@ export class News extends Component {
       
 
       
-            let url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=9856e4b407c245f294e49ed3ace91c5b&page=${this.state.page + 1}&pagesize=20`;
+            let url = `https://newsapi.org/v2/everything?q=bitcoin&apiKey=12e1c1efcb774d2995e47f59229b3950&page=${this.state.page + 1}&pagesize=20`;
+            this.setState({loading:true})//loading is made true when we are going to hit the apit thata is when we are going to fetch the url
             let data = await fetch(url);
             let parsedData = await data.json()
             this.setState({
                 page: this.state.page + 1,
-                articles: parsedData.articles
+                articles: parsedData.articles,  
+                loading:false   // as data has been fetched so we now make loading:false
             })  
        
 
@@ -55,10 +64,13 @@ export class News extends Component {
     render() {
         return (
             <>
+            {/* Loading component should only be displayed when state variable 'loading is true' */}
+            {this.state.loading&&<Loading/>}
                 <div className="container my-3">
                     <h1 className="my-4">Top Headlines</h1>
                     <div className="row">
-                        {this.state.articles.map((element) => {
+                        {/* When loading is true  and Loading Component is displayed we do not want the data of earlier page to be shown */}
+                        {!this.state.loading&&this.state.articles.map((element) => {  
                             return (<div className="col-md-4" key={element.url}>
                                 <NewsItem title={element.title ? element.title.slice(0, 45) : ""} description={element.description ? element.description.slice(0, 88) : ""} imageUrl={element.urlToImage} newsUrl={element.url} />
                             </div>)

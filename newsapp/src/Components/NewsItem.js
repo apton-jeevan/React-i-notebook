@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react'
 
 export  class NewsItem extends Component {
