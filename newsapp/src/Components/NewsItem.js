@@ -6,7 +6,7 @@ export  class NewsItem extends Component {
         let { title, description,imageUrl,newsUrl } = this.props
         return (
             <div>
-                <div className="card" style={{width:"18rem"}}>
+                <div className="card">
              
                     <img src={imageUrl?imageUrl :"https://gumlet.assettype.com/barandbench%2F2021-01%2F47f6c197-325e-4776-86e5-354fbb11fee1%2FElection__1_.jpg?w=1200&auto=format%2Ccompress&ogImage=true&enlarge=true"} style={{height:"200px"}}className="card-img-top" />
                         <div className="card-body">
