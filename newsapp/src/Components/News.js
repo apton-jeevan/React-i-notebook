@@ -28,7 +28,7 @@ export class News extends Component {
 
 
     async componentDidMount() {
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=12e1c1efcb774d2995e47f59229b3950&page=1&pagesize=20`;
+        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=12e1c1efcb774d2995e47f59229b3950&page=1&pagesize={this.props.pageSize}`;
 
         this.setState({ loading: true })//loading is made true when we are going to hit the apit thata is when we are going to fetch the url
 
@@ -44,7 +44,7 @@ export class News extends Component {
 
 
     previousPageHandler = async () => {
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=12e1c1efcb774d2995e47f59229b3950&page=${this.state.page - 1}&pagesize=20`;
+        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=12e1c1efcb774d2995e47f59229b3950&page=${this.state.page - 1}&pagesize={this.props.pageSize}`;
         this.setState({ loading: true })//loading is made true when we are going to hit the apit thata is when we are going to fetch the url
         let data = await fetch(url);
         let parsedData = await data.json()
@@ -60,7 +60,7 @@ export class News extends Component {
 
 
 
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=12e1c1efcb774d2995e47f59229b3950&page=${this.state.page + 1}&pagesize=20`;
+        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=12e1c1efcb774d2995e47f59229b3950&page=${this.state.page + 1}&pagesize={this.props.pageSize}`;
         this.setState({ loading: true })//loading is made true when we are going to hit the apit thata is when we are going to fetch the url
         let data = await fetch(url);
         let parsedData = await data.json()
@@ -93,7 +93,7 @@ export class News extends Component {
                 </div>
                 <div className="container d-flex justify-content-between my-5">
                     <button type="button" disabled={this.state.page <= 1} className="btn btn-primary" onClick={this.previousPageHandler}>&larr; Previous</button>
-                    <button type="button" disabled={this.state.page + 1 > Math.ceil(this.state.totalResults / 20)} className="btn btn-primary" onClick={this.nextPageHandler}>Next &rarr;</button>
+                    <button type="button" disabled={this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pageSize)} className="btn btn-primary" onClick={this.nextPageHandler}>Next &rarr;</button>
                 </div>
             </>
         )
