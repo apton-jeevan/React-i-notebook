@@ -13,7 +13,7 @@ const NewsItem = (props) => {
                     <h5 className="card-title">{title}...</h5>
                     <p className="card-text">{description}...</p>
                     <p>By {author ? author : "unknown"} on {(new Date(date)).toDateString()}</p>
-                    <a href={newsUrl} target="_blank" rel="noreferrer" className="btn btn-sm btn-primary">Read More</a>
+                    <a href={newsUrl} target="_blank" rel="noreferrer" className="btn btn-sm btn-primary" style={{position:"absolute",bottom:"20px"}}>Read More</a>
                 </div>
             </div>
         </div>
