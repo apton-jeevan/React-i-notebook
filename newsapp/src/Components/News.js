@@ -18,44 +18,44 @@ const News = (props) => {
     const [loading, setloading] = useState(false)
     const [page, setpage] = useState(1)
     const [totalResults, settotalResults] = useState(0)
-    // document.title = `${capitalizeFirstLetter(props.category)} - JK NewsApp`
-
-
-
+    
+    
+    
     const newsPageUpdate = async () => {
         props.setProgress(10)
         const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apikey}&page=${page}&pagesize={props.pageSize}`;
-
-      setloading(true)
+        
+        setloading(true)
         
         //loading is made true when we are going to hit the apit thata is when we are going to fetch the url
-
+        
         let data = await fetch(url);
-
+        
         props.setProgress(30)
 
         let parsedData = await data.json()
-
+        
         props.setProgress(70)
-
+        
         setarticles(parsedData.articles)
         settotalResults(parsedData.totalResults)
         setloading(false)
-       
+        
         props.setProgress(100)
     }
-
+    
     useEffect(() => {
+        document.title = `${capitalizeFirstLetter(props.category)} - JK NewsApp`
         newsPageUpdate()
     },[])
 
 
     const fetchMoreData = async () => {
 
+        const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apikey}&page=${page+1}&pagesize={props.pageSize}`;
+        
         setpage(page + 1)
-
-        const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apikey}&page=${page + 1}&pagesize={props.pageSize}`;
-
+        
         let data = await fetch(url);
         let parsedData = await data.json()
         setarticles(articles.concat(parsedData.articles))
@@ -67,7 +67,7 @@ const News = (props) => {
         <>
             {/* Loading component should only be displayed when state variable 'loading is true' */}
             {loading && <Loading />}
-            <h1 className=" text-center" style={{ margin: "50px" }}>JK NewsFlash - Top Headlines on {capitalizeFirstLetter(props.category)}</h1>
+            <h1 className=" text-center" style={{ margin: "50px", marginTop: '105px' }}>JK NewsFlash - Top Headlines on {capitalizeFirstLetter(props.category)}</h1>
             <InfiniteScroll
                 dataLength={articles.length}
                 next={fetchMoreData}
