@@ -4,11 +4,12 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const fetchuser = require("../middleware/fetchuser")
 
 
 //Express Validator     
 
-//Creating route api/auth/createUser  so that user is  created
+//ROUTER 1 Creating route api/auth/createUser  so that user is  created
 router.post('/createUser',
   [body('email', "Enter a valid email").isEmail(),
   body('password', "password should be atleast 5 characters").isLength({ min: 5 }),
@@ -40,7 +41,9 @@ router.post('/createUser',
       })
 
       const data = {
-        id: user.id
+        user: {
+          id: user.id
+        }
       }
 
       const JWT_SECRET = 'Harryisagoodboy';
@@ -48,12 +51,12 @@ router.post('/createUser',
       res.json({ authtoken: authtoken })    // sending response to thunder client that user has been created 
     }
     catch (error) {
-      console.log(error.message)
+      console.error(error.message)
       res.status(500).send("Some Internal error occured")
     }
   })
 
-//Creating route api/auth/login  : Authenticating a user
+//ROUTER 2 Creating route api/auth/login  : Authenticating a user
 
 router.post('/login',
   [body('email', "Enter a valid email").isEmail(),
@@ -78,10 +81,13 @@ router.post('/login',
       if (!passwordCompare) {
         return res.status(400).json({ error: "Please try to login with correct credentials" })
 
-      } 
+      }
+      //As both the fields(Email and Password) are correct so we send the payload to the user.
 
       const data = {
-        id: user.id
+        user: {
+          id: user.id
+        }
       }
 
       const JWT_SECRET = 'Harryisagoodboy';
@@ -89,9 +95,24 @@ router.post('/login',
       res.json({ authtoken: authtoken })    // sending response to thunder client that user has been created 
     }
     catch (error) {
-      console.log(error.message)
+      console.error(error.message)
       res.status(500).send("Some Internal error occured")
     }
   })
+
+// ROUTER 3 get logged in user details using
+
+router.post("/getuser", fetchuser, async (req, res) => {
+  try {
+    // console.log(req.userid)
+    const userId = req.user.id
+    const user = await User.findById(userId).select("-password")
+    res.send(user)
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(500).send("Internal Server Error");
+  }
+})
 
 module.exports = router
