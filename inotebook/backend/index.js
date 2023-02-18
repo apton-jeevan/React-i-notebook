@@ -8,7 +8,7 @@ app.use(express.json())// to get request as json
 
 //Available Routes
 app.use('/api/auth', require('./routes/auth'))
-// app.use('/api/notes', require('./routes/notes'))
+app.use('/api/note', require('./routes/note'))
 
 
 //callback function is just for printing it in console. it is optional i guess . main thing is app.listen(port)

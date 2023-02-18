@@ -9,7 +9,7 @@ const fetchuser = require("../middleware/fetchuser")
 
 //Express Validator     
 
-//ROUTER 1 Creating route api/auth/createUser  so that user is  created
+//ROUTER 1 Creating route api/auth/createUser  so that user is  created    //No Login Require
 router.post('/createUser',
   [body('email', "Enter a valid email").isEmail(),
   body('password', "password should be atleast 5 characters").isLength({ min: 5 }),
@@ -56,7 +56,7 @@ router.post('/createUser',
     }
   })
 
-//ROUTER 2 Creating route api/auth/login  : Authenticating a user
+//ROUTER 2 Creating route api/auth/login  : Authenticating a user    //No login required
 
 router.post('/login',
   [body('email', "Enter a valid email").isEmail(),
@@ -100,11 +100,10 @@ router.post('/login',
     }
   })
 
-// ROUTER 3 get logged in user details using
+// ROUTER 3 get logged in user details using api/auth/getuser  //No Login Required
 
 router.post("/getuser", fetchuser, async (req, res) => {
   try {
-    // console.log(req.userid)
     const userId = req.user.id
     const user = await User.findById(userId).select("-password")
     res.send(user)

@@ -2,11 +2,16 @@ const mongoose = require("mongoose")
 const { Schema } = mongoose;
 
 const NotesSchema = new Schema({
-    title:{
+
+    user:{
+        type: mongoose.Schema.Types.ObjectId, // foreign key(linking objectId of another table mentioned in ref that is user)
+        ref: 'user'
+    },
+    title: {
         type: String,
         required: true
     },
-    description :{
+    description: {
         type: String,
         required: true,
     },
@@ -20,4 +25,4 @@ const NotesSchema = new Schema({
     }
 })
 
-module.exports=mongoose.model("Notes",NotesSchema)
+module.exports = mongoose.model("Note", NotesSchema)
