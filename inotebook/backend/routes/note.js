@@ -17,7 +17,7 @@ router.get("/fetchallnote", fetchuser, async (req, res) => {
     }
 })
 
-//ROUTER 2 Creating route api/note/addnote  so that all note of a particular user is added // Login Required
+//ROUTER 2 Creating route api/note/addnote  note of a particular authorised user is added // Login Required
 router.post("/addnote", fetchuser, [
     body('title', "title should be atleast 3 characters").isLength({ min: 3 }),
     body('description', "name should be atleast 5 characters").isLength({ min: 5 })]
@@ -46,5 +46,61 @@ router.post("/addnote", fetchuser, [
 
         }
     })
+
+
+//ROUTER 3 Creating route api/note/updatenote/:id  so that particular note of the respective authorised user  is updated // Login Required
+
+//generally for updation we use put.(can also use post and get..no problem)
+
+
+//the colon (:) before id is used to define a URL parameter. URL parameters allow you to capture values from the URL and use them in your server-side logic.
+    router.put("/updatenote/:id", fetchuser,
+    async (req, res) => {
+
+        try {
+            const { title, description, tag } = req.body;
+
+            const newNote = {} // Created and object whose variable name is newNote
+
+            // if title,description and tag are requested by the user to be updated then only update it.
+            if (title) {
+                newNote.title = title
+            }
+            if (description) {
+                newNote.description = description
+            }
+            if (tag) {
+                newNote.tag = tag
+            }
+
+            //No error so we update the note
+
+            //We also need to check whether the Note id exists or not.
+
+            let note = await Note.findById(req.params.id); //param.id is the id mentioned in url
+            if (!note) { return res.status(404).send("Not Found") }
+
+            //checking whether the user whose note is being updates is same as req.user.id which we will get from the middleware fetchuser
+            if (note.user.toString() !== req.user.id) {
+                return res.status(401).send("Not Allowed");
+            }
+
+            // if control reaches here that means user is updating it's own notes.
+            note = await Note.findByIdAndUpdate(req.params.id, { $set: newNote }, { new: true })
+            res.json({ note });
+
+            //{ new: true } is an option that specifies whether the updated document should be returned by the method. If new is set to true, the updated document will be returned. If new is set to false, the original document will be returned before the update was applied.
+
+            //{ $set: newNote } is an update operation that sets the fields in the document to the values specified in the newNote object. 
+
+        }
+
+        catch (error) {
+            console.error(error.message)
+            res.status(500).send("Internal Server Error");
+
+        }
+    })
+
 
 module.exports = router   
