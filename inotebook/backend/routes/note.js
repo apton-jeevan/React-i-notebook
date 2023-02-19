@@ -48,7 +48,7 @@ router.post("/addnote", fetchuser, [
     })
 
 
-//ROUTER 3 Creating route api/note/updatenote/:id  so that particular note of the respective authorised user  is updated // Login Required
+//ROUTER 3 Creating route api/note/updatenote/:id so that particular note of the respective authorised user  is updated // Login Required
 
 //generally for updation we use put.(can also use post and get..no problem)
 
@@ -86,7 +86,7 @@ router.post("/addnote", fetchuser, [
             }
 
             // if control reaches here that means user is updating it's own notes.
-            note = await Note.findByIdAndUpdate(req.params.id, { $set: newNote }, { new: true })
+            note = await Note.findByIdAndUpdate(req.params.id, { $set: newNote }, { new: true})
             res.json({ note });
 
             //{ new: true } is an option that specifies whether the updated document should be returned by the method. If new is set to true, the updated document will be returned. If new is set to false, the original document will be returned before the update was applied.
@@ -101,6 +101,42 @@ router.post("/addnote", fetchuser, [
 
         }
     })
+
+    //ROUTE 4 Creating route api/note/deletenote/:id so that particular note of the respective authorised user  is deleted // Login Required
+
+// Delete http method is used
+
+//the colon (:) before id is used to define a URL parameter. URL parameters allow you to capture values from the URL and use them in your server-side logic.
+router.delete("/deletenote/:id", fetchuser,
+async (req, res) => {
+    try {
+        
+
+        //checking whether the Note id exists or not.
+
+        let note = await Note.findById(req.params.id); //param.id is the id mentioned in url
+        if (!note) { return res.status(404).send("Not Found") }
+
+        //checking whether the user whose note is being updates is same as req.user.id which we will get from the middleware fetchuser
+        if (note.user.toString() !== req.user.id) {
+            return res.status(401).send("Not Allowed");
+        }
+
+        // if control reaches here that means auhtorised user is deleteing its own notes
+
+        note = await Note.findByIdAndDelete(req.params.id)// this method returns the deleted document. So variable note contains the deleted document.
+        res.json({ "Success": "Note has been deleted", note: note });
+
+        //{ new: true } is an option that specifies whether the updated document should be returned by the method. If new is set to true, the updated document will be returned. If new is set to false, the original document will be returned before the update was applied. 
+
+    }
+
+    catch (error) {
+        console.error(error.message)
+        res.status(500).send("Internal Server Error");
+
+    }
+})
 
 
 module.exports = router   
