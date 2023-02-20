@@ -6,18 +6,22 @@ import {
 } from "react-router-dom";
 import './App.css';
 import About from "./Components/About";
+import Alert from "./Components/Alert";
 import Home from "./Components/Home";
 import Navbar from './Components/Navbar';
 import NoteState from "./Context/NoteState";
+import { useState } from "react";
 // import NoteState from "./Context/NoteState";
 
 function App() {
+
   return (
     <>
       <NoteState>
 
         <Router>
           <Navbar />
+          <Alert message="Welcome to Ooty Nice to meet You"/>
           <div className="container my-4">
             <Routes>
               <Route path="/" element={<Home />}></Route>
