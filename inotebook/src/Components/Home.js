@@ -1,6 +1,10 @@
 import React from 'react'
+import { useContext } from 'react'
+import NoteContext from '../Context/notes/NoteContext'
 export default function Home() {
 
+const context=useContext(NoteContext)
+const{notes,setNotes}=context
     return (
         <div>
             <h1>Add Notes</h1>
@@ -20,8 +24,14 @@ export default function Home() {
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
+            <div>
             <h1>Your Notes</h1>
-
+            {   
+                notes.map((note)=>{
+                    return <div>{note.title}</div>
+                })
+            }
+            </div>  
         </div>
     )
 }

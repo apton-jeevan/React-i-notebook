@@ -13,6 +13,6 @@ app.use('/api/note', require('./routes/note'))
 
 //callback function is just for printing it in console. it is optional i guess . main thing is app.listen(port)
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+    console.log(`i Notebook backend  listening at http://localhost:${port}`)
 })  
     

@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 
 export default function Navbar() {
 
-    let location = useLocation();
+    let location = useLocation(); // useLocation hooks just gives the current location
 
   React.useEffect(() => {
     console.log(location.pathname)
