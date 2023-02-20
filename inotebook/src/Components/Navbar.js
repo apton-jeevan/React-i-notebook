@@ -6,10 +6,6 @@ export default function Navbar() {
 
     let location = useLocation(); // useLocation hooks just gives the current location
 
-  React.useEffect(() => {
-        console.log(location.pathname)
-  }, [location]);
-
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark ">

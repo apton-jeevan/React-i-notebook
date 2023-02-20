@@ -113,9 +113,14 @@ export default function NoteState(props) {
         }
         setNotes(notes.concat(note))
     }    
+    const DeleteNote=(id)=>{
+        console.log("delete")
+            const NewNotes = notes.filter((note)=>{return note._id!==id})
+            setNotes(NewNotes)
+     }    
     return (
         <div>
-            <NoteContext.Provider value={{ notes, AddNote }}>
+            <NoteContext.Provider value={{ notes, AddNote , DeleteNote }}>
                 {props.children}
             </NoteContext.Provider>
         </div>

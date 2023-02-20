@@ -6,7 +6,8 @@ export default function InsertNote() {
     const{AddNote}=useContext(NoteContext)
     const [note,setNote]=useState({"title":"","description":"","tag":"default"})
     const onChange = (e)=>{
-        setNote({...note, [e.target.name]: e.target.value}) 
+        setNote({...note, [e.target.name]: e.target.value})
+        // Here spread operator is used above.     ...note contains "title":"","description":"","tag":"default" . we are overwriting the value of title and description with help of e.target.name
     }
     const AddNotesHandler=(e)=>{
         e.preventDefault(); // to avoid refreshing page in this case
