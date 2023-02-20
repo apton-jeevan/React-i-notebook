@@ -48,6 +48,51 @@ const notesInitial=[
       "tag": "personal",
       "date": "2023-02-19T06:33:51.706Z",
       "__v": 0
+    },
+    {
+      "_id": "63f1c178c328a082c5796c66",
+      "user": "63f06a2ff8a5e9dbc6d26209",
+      "title": "Hollywood Songs",
+      "description": "We Dont talk Anymore",
+      "tag": "personal",
+      "date": "2023-02-19T06:28:08.489Z",
+      "__v": 0
+    },
+    {
+      "_id": "63f1c178c328a082c5796c66",
+      "user": "63f06a2ff8a5e9dbc6d26209",
+      "title": "Hollywood Songs",
+      "description": "We Dont talk Anymore",
+      "tag": "personal",
+      "date": "2023-02-19T06:28:08.489Z",
+      "__v": 0
+    },
+    {
+      "_id": "63f1c178c328a082c5796c66",
+      "user": "63f06a2ff8a5e9dbc6d26209",
+      "title": "Hollywood Songs",
+      "description": "We Dont talk Anymore",
+      "tag": "personal",
+      "date": "2023-02-19T06:28:08.489Z",
+      "__v": 0
+    },
+    {
+      "_id": "63f1c178c328a082c5796c66",
+      "user": "63f06a2ff8a5e9dbc6d26209",
+      "title": "Hollywood Songs",
+      "description": "We Dont talk Anymore",
+      "tag": "personal",
+      "date": "2023-02-19T06:28:08.489Z",
+      "__v": 0
+    },
+    {
+      "_id": "63f1c178c328a082c5796c66",
+      "user": "63f06a2ff8a5e9dbc6d26209",
+      "title": "Hollywood Songs",
+      "description": "We Dont talk Anymore",
+      "tag": "personal",
+      "date": "2023-02-19T06:28:08.489Z",
+      "__v": 0
     }
   ]
   const [notes,setNotes] = useState(notesInitial)
