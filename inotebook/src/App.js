@@ -10,8 +10,6 @@ import Alert from "./Components/Alert";
 import Home from "./Components/Home";
 import Navbar from './Components/Navbar';
 import NoteState from "./Context/NoteState";
-import { useState } from "react";
-// import NoteState from "./Context/NoteState";
 
 function App() {
 

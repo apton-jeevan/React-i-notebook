@@ -3,6 +3,7 @@ import { useState } from "react";
 import React from 'react'
 
 export default function NoteState(props) {
+
     const notesInitial = [
 
         {
@@ -98,9 +99,23 @@ export default function NoteState(props) {
 
     ]
     const [notes, setNotes] = useState(notesInitial)
+
+    const AddNote=(title,description,tag)=>{
+       const note= {
+            "_id": "63f341d7c74e27c343d65892",
+            "user": "63f06a2ff8a5e9dbc6d26209", 
+            "title": title,
+            "description": description,
+            "tag": tag,
+            "date": "2023-02-20T09:48:07.494Z",
+
+            "__v": 0
+        }
+        setNotes(notes.concat(note))
+    }    
     return (
         <div>
-            <NoteContext.Provider value={{ notes, setNotes }}>
+            <NoteContext.Provider value={{ notes, AddNote }}>
                 {props.children}
             </NoteContext.Provider>
         </div>
