@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import NoteContext from '../Context/notes/NoteContext'
 import { useContext } from 'react'
 
-export default function InsertNote() {
-    const{AddNote}=useContext(NoteContext)
+export default function AddNote() {
+    const{AddNoteApi}=useContext(NoteContext)
     const [note,setNote]=useState({"title":"","description":"","tag":"default"})
     const onChange = (e)=>{
         setNote({...note, [e.target.name]: e.target.value})
@@ -12,7 +12,7 @@ export default function InsertNote() {
     const AddNotesHandler=(e)=>{
         e.preventDefault(); // to avoid refreshing page in this case
         console.log(note.description)
-        AddNote(note.title, note.description, note.tag);
+        AddNoteApi(note.title, note.description, note.tag);
     }
     return (
         <div>

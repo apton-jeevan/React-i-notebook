@@ -7,12 +7,12 @@ const jwt = require('jsonwebtoken');
 const fetchuser = require("../middleware/fetchuser")
 
 
-//Express Validator     
+//Express Validator         
 
-//ROUTER 1 Creating route api/auth/createUser  so that user is  created    //No Login Require
+//ROUTER 1 Creating route api/auth/createUser  so that user is  created  //No Login Required
 router.post('/createUser',
-  [body('email', "Enter a valid email").isEmail(),
-  body('password', "password should be atleast 5 characters").isLength({ min: 5 }),
+  [body('email',"Enter a valid email").isEmail(),
+  body('password',"password should be atleast 5 characters").isLength({ min: 5 }),
   body('name', "name should be atleast 3 characters").isLength({ min: 3 })]
   , async (req, res) => {
     // if there are errors in validation then return bad response with the error
@@ -29,7 +29,7 @@ router.post('/createUser',
         return res.status(400).json({ error: "sorry user with this email id already exists" })
       }
 
-      const salt = await bcrypt.genSalt(10);
+      const salt = await bcrypt.genSalt(10); //generates salt of 10 characters
       const secPass = await bcrypt.hash(req.body.password, salt);
 
 
@@ -48,7 +48,8 @@ router.post('/createUser',
 
       const JWT_SECRET = 'Harryisagoodboy';
       const authtoken = jwt.sign(data, JWT_SECRET);
-      res.json({ authtoken: authtoken })    // sending response to thunder client that user has been created 
+      res.json({ authtoken: authtoken }) // sending response to thunder client that user has been created 
+      // res.json({ authtoken})   sane as above
     }
     catch (error) {
       console.error(error.message)
@@ -99,12 +100,11 @@ router.post('/login',
       res.status(500).send("Some Internal error occured")
     }
   })
-
-// ROUTER 3 get logged in user details using api/auth/getuser  //No Login Required
+// ROUTER 3 get logged in user details using api/auth/getuser  //Login Required
 
 router.post("/getuser", fetchuser, async (req, res) => {
   try {
-    const userId = req.user.id
+    const userId = req.user.id //req.user got from fetchuser.js
     const user = await User.findById(userId).select("-password")
     res.send(user)
   }

@@ -19,7 +19,7 @@ function App() {
 
         <Router>
           <Navbar />
-          <Alert message="Welcome to Ooty Nice to meet You"/>
+          <Alert message="Welcome to Ooty Nice to meet You" />
           <div className="container my-4">
             <Routes>
               <Route path="/" element={<Home />}></Route>

@@ -3,126 +3,92 @@ import { useState } from "react";
 import React from 'react'
 
 export default function NoteState(props) {
-
-    const notesInitial = [
-
-        {
-            "_id": "63f10c3c5e0393b145e574a1",
-            "user": "63f06a2ff8a5e9dbc6d26209",
-            "title": "Bollywood Songs",
-            "description": "Samjhawaan",
-            "tag": "Personal",
-            "date": "2023-02-18T17:34:52.044Z",
-            "__v": 0
-        },
-        {
-            "_id": "63f1b5502f8f86a63ee6d5ec",
-            "user": "63f06a2ff8a5e9dbc6d26209",
-            "title": "Animal Kingdom",
-            "description": "All about Animal Kingdom",
-            "tag": "personal",
-            "date": "2023-02-19T05:36:16.573Z",
-            "__v": 0
-        },
-        {
-            "_id": "63f1c152c328a082c5796c64",
-            "user": "63f06a2ff8a5e9dbc6d26209",
-            "title": "Plants Kingdom",
-            "description": "All about Plants Kingdom",
-            "tag": "personal",
-            "date": "2023-02-19T06:27:30.357Z",
-            "__v": 0
-        },
-        {
-            "_id": "63f1c178c328a082c5796c66",
-            "user": "63f06a2ff8a5e9dbc6d26209",
-            "title": "Hollywood Songs",
-            "description": "We Dont talk Anymore",
-            "tag": "personal",
-            "date": "2023-02-19T06:28:08.489Z",
-            "__v": 0
-        },
-        {
-            "_id": "63f1c2cf6fec5f3d60562cae",
-            "user": "63f06a2ff8a5e9dbc6d26209",
-            "title": "Movies",
-            "description": "Kilikkam",
-            "tag": "personal",
-            "date": "2023-02-19T06:33:51.706Z",
-            "__v": 0
-        },
-        {
-            "_id": "63f3416cc74e27c343d6588a",
-            "user": "63f06a2ff8a5e9dbc6d26209",
-            "title": "Malayalam Songs",
-            "description": "Pardheesa",
-            "tag": "personal",
-            "date": "2023-02-20T09:46:20.017Z",
-            "__v": 0
-        },
-        {
-            "_id": "63f3417dc74e27c343d6588c",
-            "user": "63f06a2ff8a5e9dbc6d26209",
-            "title": "Cartoon",
-            "description": "Shinchan",
-            "tag": "personal",
-            "date": "2023-02-20T09:46:37.338Z",
-            "__v": 0
-        },
-        {
-            "_id": "63f34184c74e27c343d6588e",
-            "user": "63f06a2ff8a5e9dbc6d26209",
-            "title": "Cartoon",
-            "description": "Power Rangers",
-            "tag": "personal",
-            "date": "2023-02-20T09:46:44.537Z",
-            "__v": 0
-        },
-        {
-            "_id": "63f341b9c74e27c343d65890",
-            "user": "63f06a2ff8a5e9dbc6d26209",
-            "title": "DSA",
-            "description": "Trees and Graphs",
-            "tag": "personal",
-            "date": "2023-02-20T09:47:37.292Z",
-            "__v": 0
-        },
-        {
-            "_id": "63f341d7c74e27c343d65892",
-            "user": "63f06a2ff8a5e9dbc6d26209",
-            "title": "Dbms",
-            "description": "Normalization",
-            "tag": "personal",
-            "date": "2023-02-20T09:48:07.494Z",
-            "__v": 0
-        }
-
-    ]
+    const host = "http://localhost:5000" //where our backend is present
+    const notesInitial = []
     const [notes, setNotes] = useState(notesInitial)
 
-    const AddNote=(title,description,tag)=>{
-       const note= {
-            "_id": "63f341d7c74e27c343d65892",
-            "user": "63f06a2ff8a5e9dbc6d26209", 
+    // Get all Notes
+    // getNotes is called once in Notes.js as it is used inside useEffect
+    const getNotes = async () => {
+        // API Call 
+    //    syntax await fetch(route,methods,headers reqbody)
+        const response = await fetch(`${host}/api/note/fetchallnote`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNmMDZhMmZmOGE1ZTlkYmM2ZDI2MjA5In0sImlhdCI6MTY3Njc4NDg1M30.6mz3VoiyAdw91NNiXlp4mhVL0UX3trD7Ptpvxej4bxo"
+            }
+        });
+        const json = await response.json()
+        console.log(json)
+        setNotes(json) // with this all notes of a particular user will be fetched
+    }
+
+    // Add a Note
+    const AddNoteApi = async (title, description, tag) => {
+
+        // API Call
+        const response = await fetch(`${host}/api/note/addnote`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNmMDZhMmZmOGE1ZTlkYmM2ZDI2MjA5In0sImlhdCI6MTY3Njc4NDg1M30.6mz3VoiyAdw91NNiXlp4mhVL0UX3trD7Ptpvxej4bxo"
+            },
+            body: JSON.stringify({ title, description, tag })
+        });
+
+
+        console.log("Adding a new note")
+        const note = {
+            // "_id": "61322f119553781a8ca8d0e08",
+            // "user": "6131dc5e3e4037cd4734a0664",
             "title": title,
             "description": description,
             "tag": tag,
-            "date": "2023-02-20T09:48:07.494Z",
-
-            "__v": 0
-        }
+            // "date": "2021-09-03T14:20:09.668Z",
+            // "__v": 0
+        };
         setNotes(notes.concat(note))
-    }    
-    const DeleteNote=(id)=>{
+    }
+
+
+    //Edit Note
+    const EditNote = async (id, title, description, tag) => {
+        // API Call 
+        const response = await fetch(`${host}/api/note/updatenote/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNmMDZhMmZmOGE1ZTlkYmM2ZDI2MjA5In0sImlhdCI6MTY3Njc4NDg1M30.6mz3VoiyAdw91NNiXlp4mhVL0UX3trD7Ptpvxej4bxo"
+            },
+            body: JSON.stringify({ title, description, tag })
+        });
+        const json = response.json();
+
+        // To edit in client side
+        for (let i = 0; i < notes.length; i++) {
+            const element = notes[i];
+            if (element._id === id) {
+                element.title = title;
+                element.description = description;
+                element.tag = tag;
+            }
+        }
+
+    }
+    const DeleteNote = (id) => {
         console.log("delete")
-            const NewNotes = notes.filter((note)=>{return note._id!==id})
-            setNotes(NewNotes)
-     }    
+        const NewNotes = notes.filter((note) => { return note._id !== id })
+        setNotes(NewNotes)
+    }
     return (
         <div>
-            <NoteContext.Provider value={{ notes, AddNote , DeleteNote }}>
+            <NoteContext.Provider value={{ notes, AddNoteApi, DeleteNote,getNotes}}>
                 {props.children}
             </NoteContext.Provider>
         </div>
     )
 }
+
+
+

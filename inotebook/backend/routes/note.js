@@ -37,6 +37,7 @@ router.post("/addnote", fetchuser, [
             const note = new Note({
                 title, description, tag, user: req.user.id // equivalent to title:title description:description
             })
+            //We have to save user id with notes so that in database it can be identified which note belongs to which user
             const savedNote = await note.save()
             res.json(savedNote)
         }
@@ -54,6 +55,7 @@ router.post("/addnote", fetchuser, [
 
 
 //the colon (:) before id is used to define a URL parameter. URL parameters allow you to capture values from the URL and use them in your server-side logic.
+// id is the note id of the note which we want to update
     router.put("/updatenote/:id", fetchuser,
     async (req, res) => {
 
@@ -81,6 +83,8 @@ router.post("/addnote", fetchuser, [
             if (!note) { return res.status(404).send("Not Found") }
 
             //checking whether the user whose note is being updates is same as req.user.id which we will get from the middleware fetchuser
+            console.log(note.user)
+            console.log(req.user.id)
             if (note.user.toString() !== req.user.id) {
                 return res.status(401).send("Not Allowed");
             }
