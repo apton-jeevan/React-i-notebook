@@ -10,8 +10,8 @@ export default function NoteState(props) {
     // Get all Notes
     // getNotes is called once in Notes.js as it is used inside useEffect
     const getNotes = async () => {
-        // API Call 
-    //    syntax await fetch(route,methods,headers reqbody)
+        // API Call(fetching notes from database)
+        //syntax await fetch(route,methods,headers reqbody)
         const response = await fetch(`${host}/api/note/fetchallnote`, {
             method: 'GET',
             headers: {
@@ -20,33 +20,28 @@ export default function NoteState(props) {
             }
         });
         const json = await response.json()
-        console.log(json)
         setNotes(json) // with this all notes of a particular user will be fetched
     }
 
     // Add a Note
     const AddNoteApi = async (title, description, tag) => {
 
-        // API Call
-        const response = await fetch(`${host}/api/note/addnote`, {
+        // API Call(adding notes in database)
+        await fetch(`${host}/api/note/addnote`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNmMDZhMmZmOGE1ZTlkYmM2ZDI2MjA5In0sImlhdCI6MTY3Njc4NDg1M30.6mz3VoiyAdw91NNiXlp4mhVL0UX3trD7Ptpvxej4bxo"
             },
             body: JSON.stringify({ title, description, tag })
+
         });
 
-
-        console.log("Adding a new note")
+        // to add notes in the client side
         const note = {
-            // "_id": "61322f119553781a8ca8d0e08",
-            // "user": "6131dc5e3e4037cd4734a0664",
             "title": title,
             "description": description,
             "tag": tag,
-            // "date": "2021-09-03T14:20:09.668Z",
-            // "__v": 0
         };
         setNotes(notes.concat(note))
     }
@@ -83,7 +78,7 @@ export default function NoteState(props) {
     }
     return (
         <div>
-            <NoteContext.Provider value={{ notes, AddNoteApi, DeleteNote,getNotes}}>
+            <NoteContext.Provider value={{ notes, AddNoteApi, DeleteNote, getNotes }}>
                 {props.children}
             </NoteContext.Provider>
         </div>
